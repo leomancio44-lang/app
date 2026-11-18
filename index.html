@@ -236,23 +236,8 @@ const $ = s => document.querySelector(s),
       uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
       cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const vib = () => {
-  // Tenta la vibrazione standard (per Android)
-  try { navigator.vibrate && navigator.vibrate(40); } catch(e){}
-  
-  // Genera un micro-colpo sullo speaker dell'iPhone (Haptic Audio)
-  try {
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(60, audioCtx.currentTime); // Frequenza bassissima
-    gain.gain.setValueAtTime(1, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
-  } catch(e){}
+const vib = (pattern = 35) => {
+  try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
 };
 
 // Copia negli appunti compatibile con iOS Safari & iFrame
