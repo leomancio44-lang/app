@@ -993,7 +993,7 @@ body.tab-enter #v>*:nth-child(n+6){animation-delay:.25s}
 /* ==========================================================================
    1. UTILITY CORE, COUNT-UP NUMERICO & AVVIO ISTANTANEO (STALE-WHILE-REVALIDATE)
    ========================================================================== */
-const APP_VER = '16.2';
+const APP_VER = '16.3';
 let storagePersisted = false;
 
 const $ = s => document.querySelector(s),
@@ -1017,7 +1017,7 @@ function initHaptics() {
   try {
     const l = document.createElement('label');
     l.setAttribute('aria-hidden', 'true');
-    l.style.cssText = 'position:fixed;left:-99px;top:-99px;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden';
+    l.style.cssText = 'position:fixed;left:0;top:0;width:52px;height:32px;opacity:.01;pointer-events:none;z-index:-1';
     const i = document.createElement('input');
     i.type = 'checkbox';
     i.setAttribute('switch', '');
@@ -1037,6 +1037,16 @@ function hapTick(ms = 10) {
     if (!_hapLabel) initHaptics();
     if (_hapLabel) _hapLabel.click();
   } catch (e) {}
+}
+
+function hapInfo() {
+  const m = /OS (\d+)[_.](\d+)/.exec(navigator.userAgent);
+  return `iOS ${m ? m[1] + '.' + m[2] : 'n/d'} · ${navigator.standalone ? 'app dalla Home' : 'Safari'} · vibrate API: ${navigator.vibrate ? 'sì' : 'no'}`;
+}
+function hapTest() {
+  _hapLast = 0;
+  hapTick();
+  toast('Tick inviato · lo senti?');
 }
 
 const vib = (pattern = 18) => {
@@ -4158,6 +4168,16 @@ function settingsV() {
           <input type='file' id='imp' accept='.json,application/json' hidden onchange='imp(this)'>
         </div>
         <button class='btn s sm' style='width:100%;margin-top:8px' onclick='openRestoreSheet()'>Backup automatici</button>
+      </div>
+
+      <div class='card'>
+        <span class='kicker'>TEST VIBRAZIONE</span>
+        <div class='m' style='margin:6px 0 10px'>${hapInfo()}</div>
+        <div class='row sp' style='padding:4px 0 10px'>
+          <span style='font-size:12.5px'>1 · Interruttore di sistema</span>
+          <input type='checkbox' switch data-no-kb='1' style='all:revert' aria-label='Test interruttore'>
+        </div>
+        <button class='btn s' style='width:100%' onclick='hapTest()'>2 · Tick dell’app</button>
       </div>
 
       <div class='card'>
