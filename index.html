@@ -127,7 +127,7 @@ h2{
 
 /* Semaforo silenzioso sulla Card Patrimonio */
 .hero-card{
-  background:radial-gradient(280px 150px at 96% -18%,var(--hero-glow,rgba(255,255,255,.07)),transparent),linear-gradient(180deg,#101015 0%,#0B0B0E 100%);
+  background:var(--s1);
   border-color:var(--hero-border,rgba(255,255,255,.12));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 14px 34px rgba(0,0,0,.65);
   transition:background .35s ease,border-color .35s ease;
@@ -532,7 +532,7 @@ nav.liquid-dock button.on{
 @keyframes msgTimer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 
 .checkin-card{
-  background:linear-gradient(180deg,#121513 0%,#0D0F0E 100%);
+  background:var(--s1);
   border:1px solid rgba(50,215,75,.24);
   border-radius:15px;padding:10px 12px;margin-bottom:9px;
 }
@@ -609,25 +609,23 @@ body.blur-mode .money-val:active{filter:none;opacity:1}
   box-shadow:none;
 }
 
-/* Tastiera OLED proprietaria (QWERTY + Numerica) */
+/* Tastiera OLED proprietaria · layout iOS (QWERTY + Numerica) */
 #app-kb{
   position:fixed;
   left:0;right:0;bottom:0;
   max-width:448px;
   margin:0 auto;
   z-index:65;
-  background:rgba(12,12,15,.97);
-  backdrop-filter:blur(26px) saturate(180%);
-  -webkit-backdrop-filter:blur(26px) saturate(180%);
-  border-top:1px solid rgba(255,255,255,.15);
+  background:#121215;
+  border-top:1px solid rgba(255,255,255,.12);
   border-radius:22px 22px 0 0;
-  padding:10px 5px calc(16px + env(safe-area-inset-bottom,0px));
-  box-shadow:0 -16px 40px rgba(0,0,0,.92);
+  padding:8px 0 calc(10px + env(safe-area-inset-bottom,0px));
   transform:translate3d(0,105%,0);
   pointer-events:none;
   transition:transform .22s cubic-bezier(.16,1,.3,1);
   user-select:none;
   -webkit-user-select:none;
+  -webkit-touch-callout:none;
 }
 #app-kb.on{
   transform:translate3d(0,0,0);
@@ -638,8 +636,8 @@ body.blur-mode .money-val:active{filter:none;opacity:1}
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  padding:2px 6px 7px;
-  margin-bottom:4px;
+  padding:2px 12px 9px;
+  margin-bottom:8px;
   border-bottom:1px solid rgba(255,255,255,.07);
 }
 .kb-preview{
@@ -677,58 +675,80 @@ body.blur-mode .money-val:active{filter:none;opacity:1}
   color:#000000;
   border-color:#FFFFFF;
 }
+
+/* Righe: tasti alti 42, spazio 6 tra i tasti e 11 tra le righe (come iOS) */
 .kb-row{
   display:flex;
   justify-content:center;
   gap:6px;
-  margin-bottom:10px;
+  padding:0 6px;
+  margin-bottom:11px;
 }
 .kb-row:last-child{margin-bottom:0}
 .kb-key{
-  flex:1;
+  position:relative;
+  flex:0 0 calc((100% - 54px) / 10);
   min-width:0;
-  height:50px;
-  border-radius:8px;
-  background:rgba(255,255,255,.095);
-  border:1px solid rgba(255,255,255,.06);
+  height:42px;
+  border-radius:7px;
+  border:0;
+  background:rgba(255,255,255,.13);
   color:#FFFFFF;
-  font-size:22px;
+  font-size:25px;
   font-weight:400;
+  line-height:1;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:0 2px;
-  transition:transform .06s ease,background .06s ease;
+  padding:0;
+  transition:background .06s ease;
 }
-.kb-key:active{
-  transform:scale(.92);
-  background:rgba(255,255,255,.26);
-}
+.kb-key:active,
+.kb-key.pr{background:rgba(255,255,255,.32)}
+.kb-key svg{display:block}
 .kb-key.fn{
-  background:rgba(255,255,255,.045);
-  color:var(--m);
-  font-size:15px;
+  background:rgba(255,255,255,.07);
+  color:#FFFFFF;
+  font-size:16px;
   font-weight:600;
 }
+.kb-key.fn:active{background:rgba(255,255,255,.2)}
 .kb-key.fn.on{
   background:#FFFFFF;
   color:#000000;
-  border-color:#FFFFFF;
 }
 .kb-key.act{
   background:#FFFFFF;
   color:#000000;
-  border-color:#FFFFFF;
   font-size:16px;
   font-weight:700;
 }
+.kb-key.act:active{background:#D8D8DE}
+.kb-key.grow{flex:1 1 0}
+.kb-key.w135{flex:0 0 calc((100% - 54px) / 10 * 1.35)}
+.kb-key.k13{flex:0 0 calc((100% - 54px) / 10 * 1.3)}
+.kb-key.k28{flex:0 0 calc((100% - 54px) / 10 * 2.8)}
+.kb-row.r3 .kb-key.fn:first-child{margin-right:8px}
+.kb-row.r3 .kb-key.fn:last-child{margin-left:8px}
+.kb-lang{
+  position:absolute;
+  right:9px;bottom:5px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.02em;
+  color:rgba(255,255,255,.35);
+  pointer-events:none;
+}
+
+/* Tastierino numerico */
 .kb-num-grid{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:8px;
-  padding:2px 2px 0;
+  padding:2px 10px 0;
 }
 .kb-num-grid .kb-key{
+  flex:none;
   height:60px;
   font-size:27px;
   font-weight:500;
@@ -736,6 +756,29 @@ body.blur-mode .money-val:active{filter:none;opacity:1}
 }
 .kb-num-grid .kb-key.fn{font-size:20px}
 .kb-num-grid .kb-key.act{font-size:17px}
+
+/* Popup accenti (tieni premuta una vocale) */
+#kb-pop{
+  position:fixed;
+  z-index:70;
+  display:none;
+  gap:4px;
+  padding:5px;
+  background:#2A2A2F;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.8);
+  pointer-events:none;
+}
+#kb-pop.on{display:flex}
+#kb-pop span{
+  min-width:34px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:25px;
+  color:#FFFFFF;
+  border-radius:8px;
+}
+#kb-pop span.hl{background:#FFFFFF;color:#000000}
 
 body.kb-open .app-shell{padding-bottom:360px !important}
 body.kb-open #sh > div{padding-bottom:350px !important}
@@ -751,122 +794,101 @@ button,.btn,.icon-btn,input,select{touch-action:manipulation}
 body:has(#sh.on){overflow:hidden}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-/* ===================== MY SPACE · restyling ===================== */
+/* ===================== MY SPACE · stile piatto OLED ===================== */
 :root{
-  --s1:rgba(255,255,255,.045);
-  --s2:#17171C;
-  --b:rgba(255,255,255,.085);
+  --s1:#0F0F12;
+  --s2:#17171B;
+  --b:rgba(255,255,255,.09);
   --bh:rgba(255,255,255,.26);
   --m:#8E8E99;
-  --r-card:22px;
+  --r-card:20px;
 }
-html,body{background:#050508}
-body{
-  background:
-    radial-gradient(520px 340px at 85% 90px,rgba(110,110,255,.13),transparent 70%),
-    radial-gradient(460px 320px at 0% 420px,rgba(255,255,255,.045),transparent 70%),
-    #050508;
-  background-attachment:fixed;
-  letter-spacing:-.005em;
-}
+html,body{background:#000000}
+body{letter-spacing:-.005em}
 .app-shell{background:transparent;border-left:0;border-right:0}
-.safe-top-cap{background:linear-gradient(#050508 70%,rgba(5,5,8,0))}
-.app-title{
-  font-size:20px;font-weight:800;letter-spacing:.2em;
-  background:linear-gradient(90deg,#fff 20%,#9a9aff 130%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
-}
+.safe-top-cap{background:#000000}
+.app-title{font-size:20px;font-weight:800;letter-spacing:.2em;color:#FFFFFF}
 h1{font-size:22px;font-weight:800;letter-spacing:-.6px}
-.kicker{letter-spacing:.14em;font-size:9.5px;opacity:.9}
+.kicker{letter-spacing:.14em;font-size:9.5px}
 
 .card{
-  background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.028));
+  background:var(--s1);
   border:1px solid var(--b);
   border-radius:var(--r-card);
   padding:15px;margin-bottom:11px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 10px 30px rgba(0,0,0,.35);
+  box-shadow:none;
 }
-.hero-card{
-  background:linear-gradient(155deg,rgba(255,255,255,.11),rgba(255,255,255,.03) 60%)!important;
-  border-color:rgba(255,255,255,.13)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 18px 44px rgba(0,0,0,.5)!important;
-}
-.hero-num{
-  font-size:clamp(34px,10vw,42px);font-weight:800;letter-spacing:-1.6px;
-  background:linear-gradient(180deg,#fff 30%,#a9a9b8);
-  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
-}
+.hero-card{background:var(--s1)!important;border-color:var(--b)!important;box-shadow:none!important}
+.hero-num{font-size:clamp(34px,10vw,42px);font-weight:800;letter-spacing:-1.6px;color:#FFFFFF}
 .hstat{
-  background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.07);
-  border-radius:16px;padding:11px 11px;min-height:72px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;padding:11px;min-height:72px;
 }
 .hstat b{font-size:17px;letter-spacing:-.5px}
-.hero-stats{border-top:1px solid rgba(255,255,255,.07)}
+.hero-stats{border-top:1px solid var(--b)}
 .bar{height:5px;background:rgba(255,255,255,.1);border-radius:3px}
-.bar i{border-radius:3px;box-shadow:0 0 10px rgba(255,255,255,.35)}
+.bar i{border-radius:3px;box-shadow:none}
 
-.btn{
-  border-radius:14px;padding:11px 16px;font-weight:650;
-  box-shadow:0 6px 18px rgba(255,255,255,.12);
-}
-.btn.s{background:rgba(255,255,255,.07);border:1px solid var(--b);box-shadow:none;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.btn{border-radius:14px;padding:11px 16px;font-weight:650;box-shadow:none}
+.btn.s{background:rgba(255,255,255,.07);border:1px solid var(--b);box-shadow:none}
 .btn.sm{padding:7px 12px;border-radius:11px}
 .icon-btn{background:rgba(255,255,255,.07);border-radius:13px;width:38px;height:38px;font-size:20px}
-.x{color:var(--m)}
 
 .qgrid{gap:10px;margin-bottom:11px}
 .qbtn{
-  background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
-  border:1px solid var(--b);border-radius:20px;min-height:84px;gap:5px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+  background:var(--s1);
+  border:1px solid var(--b);
+  border-radius:20px;min-height:84px;gap:5px;
+  box-shadow:none;
 }
 .qbtn svg{width:22px;height:22px;padding:7px;box-sizing:content-box;border-radius:12px;background:rgba(255,255,255,.09)}
-.qbtn.pri{background:linear-gradient(160deg,#FFFFFF,#d9d9e6);color:#000;border-color:#fff;box-shadow:0 10px 28px rgba(160,160,255,.22)}
+.qbtn.pri{background:#FFFFFF;color:#000000;border-color:#FFFFFF;box-shadow:none}
 .qbtn.pri svg{background:rgba(0,0,0,.09)}
 .qbtn b{font-size:14px;font-weight:700}
 .qbtn .qsub{font-size:10.5px}
 
-.gami-pill{border-radius:18px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.025));padding:9px 10px;margin-bottom:11px}
+.gami-pill{border-radius:18px;background:var(--s1);padding:9px 10px;margin-bottom:11px}
 .gami-ico{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.08)}
 
-.seg{background:rgba(255,255,255,.05);border:1px solid var(--b);border-radius:15px;padding:4px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.seg{background:var(--s1);border:1px solid var(--b);border-radius:15px;padding:4px}
 .seg button{border-radius:11px;padding:8px 6px;font-size:11.5px}
-.seg button.on{box-shadow:0 4px 14px rgba(255,255,255,.2)}
+.seg button.on{box-shadow:none}
 .chip{background:rgba(255,255,255,.05);border-radius:99px;padding:7px 13px;font-size:12px}
-.chip.on{box-shadow:0 4px 14px rgba(255,255,255,.18)}
+.chip.on{box-shadow:none}
 input,select,textarea{background:rgba(255,255,255,.05);border:1px solid var(--b);border-radius:14px;padding:12px 13px}
-input:focus,select:focus,textarea:focus{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.08)}
+input:focus,select:focus,textarea:focus{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.07)}
 
 nav.liquid-dock{
-  background:rgba(24,24,30,.62);
-  backdrop-filter:blur(30px) saturate(190%);-webkit-backdrop-filter:blur(30px) saturate(190%);
-  border:1px solid rgba(255,255,255,.14);
+  background:rgba(18,18,22,.94);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.12);
   border-radius:28px;padding:6px;
-  box-shadow:0 18px 44px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.12);
+  box-shadow:0 10px 30px rgba(0,0,0,.8);
 }
 nav.liquid-dock button{border-radius:22px;padding:8px 2px;font-size:10px;gap:3px}
-nav.liquid-dock button.on{background:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+nav.liquid-dock button.on{background:rgba(255,255,255,.14);box-shadow:none}
 
-.sheet{background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.sheet{background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .sheet>div{
-  background:linear-gradient(180deg,#1c1c22,#121216);
-  border-radius:30px 30px 0 0;border-top:1px solid rgba(255,255,255,.16);
-  box-shadow:0 -20px 60px rgba(0,0,0,.7);
+  background:#141418;
+  border-radius:30px 30px 0 0;border-top:1px solid rgba(255,255,255,.14);
+  box-shadow:none;
 }
-.toast{border-radius:18px;background:rgba(30,30,36,.9);box-shadow:0 14px 40px rgba(0,0,0,.7)}
+.toast{border-radius:18px;background:rgba(28,28,33,.97);box-shadow:0 10px 30px rgba(0,0,0,.8)}
 .msg{border-radius:18px}
+.checkin-card{background:var(--s1)}
 
 .li-card,.li{border-color:rgba(255,255,255,.06)}
-.li-card{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.025));border-radius:18px;padding:12px 14px}
+.li-card{background:var(--s1);border-radius:18px;padding:12px 14px}
 .wday{border-radius:16px;background:rgba(255,255,255,.04);min-height:64px}
-.wday.s{box-shadow:0 6px 18px rgba(255,255,255,.2)}
+.wday.s{box-shadow:none}
 .badge{border-radius:7px;padding:3px 8px}
 
 /* abbonamenti & finanziamenti */
 .sub-card{
-  background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.028));
-  border:1px solid var(--b);border-radius:22px;padding:15px;margin-bottom:11px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+  background:var(--s1);
+  border:1px solid var(--b);border-radius:20px;padding:15px;margin-bottom:11px;
 }
 .sub-ico{
   width:38px;height:38px;border-radius:13px;flex:none;
@@ -876,13 +898,10 @@ nav.liquid-dock button.on{background:rgba(255,255,255,.16);box-shadow:inset 0 1p
 }
 .sub-link{
   width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.028));
+  background:var(--s1);
   border:1px solid var(--b);border-radius:20px;padding:14px;margin-top:12px;color:var(--t);
 }
 
-/* tastiera */
-#app-kb{background:rgba(18,18,22,.9);border-radius:28px 28px 0 0}
-.kb-key{background:rgba(255,255,255,.12);border-radius:10px;box-shadow:0 1px 0 rgba(0,0,0,.5)}
 .keys button{background:rgba(255,255,255,.09);border-radius:16px}
 .sug-chip{border-radius:14px;background:rgba(255,255,255,.06)}
 
@@ -894,6 +913,67 @@ body.tab-enter #v>*:nth-child(3){animation-delay:.1s}
 body.tab-enter #v>*:nth-child(4){animation-delay:.15s}
 body.tab-enter #v>*:nth-child(5){animation-delay:.2s}
 body.tab-enter #v>*:nth-child(n+6){animation-delay:.25s}
+
+/* ===================== Selettore orario (ruote) ===================== */
+.tfield{
+  cursor:pointer;
+  font-variant-numeric:tabular-nums;
+  font-weight:600;
+  padding-right:38px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E8E99' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 13px center;
+  background-size:16px;
+}
+#tp{
+  position:fixed;inset:0;z-index:75;
+  display:none;align-items:flex-end;justify-content:center;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+#tp.on{display:flex}
+.tp-box{
+  width:100%;max-width:448px;
+  background:#141418;
+  border-top:1px solid rgba(255,255,255,.14);
+  border-radius:30px 30px 0 0;
+  padding:8px 15px calc(18px + env(safe-area-inset-bottom,0px));
+  animation:slideUp .24s cubic-bezier(.16,1,.3,1);
+}
+.tp-big{font-size:26px;font-weight:800;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.tp-wheels{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+  height:220px;margin:10px 0 12px;
+}
+.tp-band{
+  position:absolute;left:12%;right:12%;top:88px;height:44px;
+  border-radius:13px;background:rgba(255,255,255,.09);
+  pointer-events:none;
+}
+.tp-col{
+  position:relative;z-index:1;
+  width:92px;height:220px;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+  overscroll-behavior:contain;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+.tp-col::-webkit-scrollbar{display:none}
+.tp-pad{height:88px;flex:none}
+.tp-it{
+  height:44px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:27px;font-weight:600;
+  font-variant-numeric:tabular-nums;
+  scroll-snap-align:center;
+  cursor:pointer;
+  will-change:transform,opacity;
+  user-select:none;-webkit-user-select:none;
+}
+.tp-sep{position:relative;z-index:1;font-size:27px;font-weight:700;width:14px;text-align:center;padding-bottom:3px}
 </style>
 </head>
 <body>
@@ -906,12 +986,14 @@ body.tab-enter #v>*:nth-child(n+6){animation-delay:.25s}
 <nav class="liquid-dock" id="nv"></nav>
 <div class="sheet" id="sh" onclick="if(event.target===this)closeNp()"></div>
 <div id="app-kb" aria-hidden="true"></div>
+<div id="kb-pop"></div>
+<div id="tp" onclick="if(event.target===this)tpClose()"></div>
 
 <script>
 /* ==========================================================================
    1. UTILITY CORE, COUNT-UP NUMERICO & AVVIO ISTANTANEO (STALE-WHILE-REVALIDATE)
    ========================================================================== */
-const APP_VER = '16.1';
+const APP_VER = '16.2';
 let storagePersisted = false;
 
 const $ = s => document.querySelector(s),
@@ -926,9 +1008,61 @@ const $ = s => document.querySelector(s),
       uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
       cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
 
+/* Haptic: Android usa navigator.vibrate; Safari iOS (17.4+) non lo supporta,
+   quindi si usa il tick nativo che iOS emette quando si commuta un <input switch>. */
+let _hapLabel = null, _hapLast = 0, _gestureTick = 0;
+
+function initHaptics() {
+  if (_hapLabel || !document.body) return;
+  try {
+    const l = document.createElement('label');
+    l.setAttribute('aria-hidden', 'true');
+    l.style.cssText = 'position:fixed;left:-99px;top:-99px;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden';
+    const i = document.createElement('input');
+    i.type = 'checkbox';
+    i.setAttribute('switch', '');
+    i.tabIndex = -1;
+    l.appendChild(i);
+    document.body.appendChild(l);
+    _hapLabel = l;
+  } catch (e) {}
+}
+
+function hapTick(ms = 10) {
+  const now = performance.now();
+  if (now - _hapLast < 20) return;
+  _hapLast = now;
+  try {
+    if (navigator.vibrate) { navigator.vibrate(ms); return; }
+    if (!_hapLabel) initHaptics();
+    if (_hapLabel) _hapLabel.click();
+  } catch (e) {}
+}
+
 const vib = (pattern = 18) => {
-  try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
+  try {
+    if (Array.isArray(pattern)) {
+      if (navigator.vibrate) { navigator.vibrate(pattern); return; }
+      let t = 0;
+      pattern.forEach((ms, i) => { if (i % 2 === 0) setTimeout(hapTick, t); t += ms; });
+      return;
+    }
+    // se il tocco ha già prodotto il suo tick, non raddoppiare
+    if (performance.now() - _gestureTick < 450) return;
+    hapTick(pattern);
+  } catch (e) {}
 };
+
+/* Un tick a ogni tocco su pulsanti, schede, chip, interruttori, campi orario... */
+document.addEventListener('click', e => {
+  if (lpTriggered) return;
+  const el = e.target.closest ? e.target.closest('button,select,a,summary,[onclick],.tap,.chip,.wd-pill') : null;
+  if (!el || el.disabled || el.closest('#app-kb')) return;
+  if (el.id === 'sh' && e.target !== el) return;
+  _gestureTick = performance.now();
+  hapTick();
+}, true);
+
 
 function animateNum(el, from, to, fmt = eur, ms = 220) {
   if (!el || Math.abs(to - from) < 0.01) { if (el) el.textContent = fmt(to); return; }
@@ -1468,6 +1602,35 @@ function kbUpdatePreview() {
     : `<span class='kb-ph'>${esc(ph || 'Scrivi qui...')}</span><span class='kb-caret'></span>`;
 }
 
+const KB_ACC = {
+  a: ['à', 'á', 'â', 'ä'],
+  e: ['è', 'é', 'ê', 'ë'],
+  i: ['ì', 'í', 'î', 'ï'],
+  o: ['ò', 'ó', 'ô', 'ö'],
+  u: ['ù', 'ú', 'û', 'ü'],
+  c: ['ç'],
+  n: ['ñ']
+};
+const KB_ICO_SHIFT = on => `<svg viewBox='0 0 24 24' width='22' height='22' fill='${on ? 'currentColor' : 'none'}' stroke='currentColor' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'><path d='M12 4 3.5 12.6h4.8V19h7.4v-6.4h4.8z'/></svg>`;
+const KB_ICO_DEL = `<svg viewBox='0 0 28 24' width='26' height='22' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linejoin='round' stroke-linecap='round'><path d='M9.5 3.5H23a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H9.5L2.5 12z'/><path d='M13.5 9l6 6M19.5 9l-6 6'/></svg>`;
+const KB_ROWS = {
+  alpha: [
+    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    ['z', 'x', 'c', 'v', 'b', 'n', 'm']
+  ],
+  sym: [
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+    ['-', '/', ':', ';', '(', ')', '€', '&', '@', '"'],
+    ['.', ',', '?', '!', "'"]
+  ],
+  sym2: [
+    ['[', ']', '{', '}', '#', '%', '^', '*', '+', '='],
+    ['_', '\\', '|', '~', '<', '>', '$', '£', '¥', '•'],
+    ['.', ',', '?', '!', "'"]
+  ]
+};
+
 function kbRender() {
   const box = $('#app-kb');
   if (!box || !kbTarget) return;
@@ -1478,65 +1641,136 @@ function kbRender() {
     box.innerHTML = `
       <div class='kb-bar'>
         <div class='kb-preview' id='kb-prev'></div>
-        <button type='button' class='kb-mini-btn' onclick='kbToggleMode()'>ABC</button>
-        <button type='button' class='kb-mini-btn done' onclick='kbClose()'>Chiudi</button>
+        <button type='button' class='kb-mini-btn' onclick='hapTick();kbToggleMode()'>ABC</button>
+        <button type='button' class='kb-mini-btn done' onclick='hapTick();kbClose()'>Chiudi</button>
       </div>
       <div class='kb-num-grid'>
         ${numKeys.map(k => {
-          if (k === '⌫') return `<button type='button' class='kb-key fn' onpointerdown='kbStartDel()' onpointerup='kbStopDel()' onpointerleave='kbStopDel()'>⌫</button>`;
+          if (k === '⌫') return `<button type='button' class='kb-key fn' onpointerdown='kbStartDel()' onpointerup='kbStopDel()' onpointerleave='kbStopDel()' onpointercancel='kbStopDel()' aria-label='Cancella'>${KB_ICO_DEL}</button>`;
           if (k === 'C') return `<button type='button' class='kb-key fn' onclick='kbClearField()'>C</button>`;
           if (k === actLabel) return `<button type='button' class='kb-key act' onclick='kbAction()'>${actLabel}</button>`;
           return `<button type='button' class='kb-key' onclick="kbPress('${k}')">${k}</button>`;
         }).join('')}
       </div>`;
   } else {
-    const r1 = kbMode === 'sym'
-      ? ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-      : ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
-    const r2 = kbMode === 'sym'
-      ? ['-', '/', ':', ';', '(', ')', '€', '&', '@', '"']
-      : ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'è'];
-    const r3 = kbMode === 'sym'
-      ? ['.', ',', '?', '!', "'", '+', '%', '=', 'à', 'ù']
-      : ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'ò', 'ì'];
+    const sym = kbMode !== 'alpha';
+    const rows = KB_ROWS[kbMode];
+    const up = !sym && kbShift;
+    const key = (k, cls = '') => {
+      const ch = up ? k.toUpperCase() : k;
+      return `<button type='button' class='kb-key ${cls}' data-k="${esc(ch)}" data-base="${esc(k)}">${esc(ch)}</button>`;
+    };
+    const left = !sym
+      ? `<button type='button' class='kb-key fn grow ${kbShift ? 'on' : ''}' onclick='kbToggleShift()' aria-label='Maiuscole'>${KB_ICO_SHIFT(kbShift)}</button>`
+      : `<button type='button' class='kb-key fn w135' onclick="kbSetMode('${kbMode === 'sym' ? 'sym2' : 'sym'}')">${kbMode === 'sym' ? '#+=' : '123'}</button>`;
+    const del = `<button type='button' class='kb-key fn ${sym ? 'w135' : 'grow'}' onpointerdown='kbStartDel()' onpointerup='kbStopDel()' onpointerleave='kbStopDel()' onpointercancel='kbStopDel()' aria-label='Cancella'>${KB_ICO_DEL}</button>`;
 
     box.innerHTML = `
       <div class='kb-bar'>
         <div class='kb-preview' id='kb-prev'></div>
-        <button type='button' class='kb-mini-btn done' onclick='kbClose()'>Chiudi</button>
+        <button type='button' class='kb-mini-btn done' onclick='hapTick();kbClose()'>Chiudi</button>
       </div>
+      <div class='kb-row'>${rows[0].map(k => key(k)).join('')}</div>
+      <div class='kb-row'>${rows[1].map(k => key(k)).join('')}</div>
+      <div class='kb-row r3'>${left}${rows[2].map(k => key(k, sym ? 'grow' : '')).join('')}${del}</div>
       <div class='kb-row'>
-        ${r1.map(k => {
-          const ch = kbMode === 'alpha' && kbShift ? k.toUpperCase() : k;
-          return `<button type='button' class='kb-key' onclick="kbPress('${escAttr(ch)}')">${esc(ch)}</button>`;
-        }).join('')}
-      </div>
-      <div class='kb-row' style='padding:0 ${kbMode === 'sym' ? '0' : '6px'}'>
-        ${r2.map(k => {
-          const ch = kbMode === 'alpha' && kbShift ? k.toUpperCase() : k;
-          return `<button type='button' class='kb-key' onclick="kbPress('${escAttr(ch)}')">${esc(ch)}</button>`;
-        }).join('')}
-      </div>
-      <div class='kb-row'>
-        ${kbMode === 'alpha'
-          ? `<button type='button' class='kb-key fn ${kbShift ? 'on' : ''}' style='flex:1.35' onclick='kbToggleShift()'>⇧</button>`
-          : `<button type='button' class='kb-key fn' style='flex:1.35' onclick="kbMode='alpha';kbRender()">ABC</button>`}
-        ${r3.map(k => {
-          const ch = kbMode === 'alpha' && kbShift ? k.toUpperCase() : k;
-          return `<button type='button' class='kb-key' onclick="kbPress('${escAttr(ch)}')">${esc(ch)}</button>`;
-        }).join('')}
-        <button type='button' class='kb-key fn' style='flex:1.35' onpointerdown='kbStartDel()' onpointerup='kbStopDel()' onpointerleave='kbStopDel()'>⌫</button>
-      </div>
-      <div class='kb-row'>
-        <button type='button' class='kb-key fn' style='flex:1.3' onclick='kbToggleMode()'>${kbMode === 'sym' ? 'ABC' : '123'}</button>
-        <button type='button' class='kb-key' style='flex:0.8' onclick="kbPress(',')">,</button>
-        <button type='button' class='kb-key' style='flex:3.2;font-size:12px;color:var(--m)' onclick="kbPress(' ')">spazio</button>
-        <button type='button' class='kb-key' style='flex:0.8' onclick="kbPress('.')">.</button>
-        <button type='button' class='kb-key act' style='flex:1.7' onclick='kbAction()'>${actLabel}</button>
+        <button type='button' class='kb-key fn k13' onclick="kbSetMode('${sym ? 'alpha' : 'sym'}')">${sym ? 'ABC' : '123'}</button>
+        ${sym ? '' : `<button type='button' class='kb-key k13' data-k="," data-base=",">,</button>`}
+        <button type='button' class='kb-key grow' data-k=" " aria-label='Spazio'><span class='kb-lang'>IT EN</span></button>
+        <button type='button' class='kb-key act k28' onclick='kbAction()'>${actLabel}</button>
       </div>`;
   }
   kbUpdatePreview();
 }
+
+function kbSetMode(m) {
+  hapTick();
+  kbMode = m;
+  kbRender();
+}
+
+/* Tasti lettera: inserimento al rilascio, pressione lunga = accenti (come iOS) */
+function kbShowPop(keyEl, vars) {
+  const pop = $('#kb-pop');
+  if (!pop) return;
+  pop.innerHTML = vars.map(v => `<span>${esc(v)}</span>`).join('');
+  pop.classList.add('on');
+  const r = keyEl.getBoundingClientRect();
+  const pw = pop.offsetWidth, ph = pop.offsetHeight;
+  const left = Math.max(4, Math.min(window.innerWidth - pw - 4, r.left - 4));
+  pop.style.left = left + 'px';
+  pop.style.top = (r.top - ph - 6) + 'px';
+}
+function kbHidePop() {
+  const pop = $('#kb-pop');
+  if (pop) { pop.classList.remove('on'); pop.innerHTML = ''; }
+}
+function kbHlPop(st) {
+  const spans = Array.from(document.querySelectorAll('#kb-pop span'));
+  if (!spans.length) return;
+  let best = 0, bd = Infinity;
+  spans.forEach((s, i) => {
+    const r = s.getBoundingClientRect();
+    const d = Math.abs(st.x - (r.left + r.width / 2));
+    if (d < bd) { bd = d; best = i; }
+  });
+  spans.forEach((s, i) => s.classList.toggle('hl', i === best));
+  if (st.hl !== best) hapTick();
+  st.hl = best;
+}
+
+const kbPtr = new Map();
+(function kbBindKeys() {
+  const box = $('#app-kb');
+  if (!box) return;
+
+  box.addEventListener('pointerdown', e => {
+    const key = e.target.closest ? e.target.closest('.kb-key[data-k]') : null;
+    if (!key) return;
+    e.preventDefault();
+    const st = { key, x: e.clientX, popped: false, hl: 0, vars: null, timer: null };
+    key.classList.add('pr');
+    const vars = kbMode === 'alpha' ? KB_ACC[key.dataset.base] : null;
+    if (vars) {
+      st.timer = setTimeout(() => {
+        st.popped = true;
+        st.vars = kbShift ? vars.map(v => v.toUpperCase()) : vars;
+        key.classList.remove('pr');
+        kbShowPop(key, st.vars);
+        st.hl = -1;
+        kbHlPop(st);
+      }, 380);
+    }
+    kbPtr.set(e.pointerId, st);
+  });
+
+  box.addEventListener('pointermove', e => {
+    const st = kbPtr.get(e.pointerId);
+    if (!st) return;
+    st.x = e.clientX;
+    if (st.popped) kbHlPop(st);
+  });
+
+  const end = (e, cancel) => {
+    const st = kbPtr.get(e.pointerId);
+    if (!st) return;
+    kbPtr.delete(e.pointerId);
+    clearTimeout(st.timer);
+    st.key.classList.remove('pr');
+    if (st.popped) {
+      const ch = st.vars[st.hl];
+      kbHidePop();
+      if (!cancel && ch) kbPress(ch);
+      return;
+    }
+    if (cancel) return;
+    const under = document.elementFromPoint(e.clientX, e.clientY);
+    const k2 = under && under.closest ? under.closest('.kb-key[data-k]') : null;
+    if (k2) kbPress(k2.dataset.k);
+  };
+  box.addEventListener('pointerup', e => end(e, false));
+  box.addEventListener('pointercancel', e => end(e, true));
+})();
 
 function kbOpen(el) {
   if (!el) return;
@@ -1572,6 +1806,7 @@ function kbCommitValue(el) {
 
 function kbClose() {
   kbStopDel();
+  kbHidePop();
   const el = kbTarget;
   kbTarget = null;
   if (el) {
@@ -1588,7 +1823,7 @@ function kbClose() {
 
 function kbPress(ch) {
   if (!kbTarget) return;
-  vib(8);
+  hapTick();
   const el = kbTarget;
   let val = el.value || '';
 
@@ -1601,7 +1836,11 @@ function kbPress(ch) {
       val += ch;
     }
   } else {
-    if (ch === '.' && val.endsWith(' ')) {
+    if (ch === ' ' && val.endsWith(' ') && /[^\s.,;:!?]\s$/.test(val)) {
+      val = val.slice(0, -1) + '. ';
+      kbShift = true;
+      kbRender();
+    } else if (ch === '.' && val.endsWith(' ')) {
       val = val.slice(0, -1) + '. ';
       kbShift = true;
     } else {
@@ -1623,7 +1862,7 @@ function kbPress(ch) {
 
 function kbBackspace() {
   if (!kbTarget) return;
-  vib(8);
+  hapTick();
   const el = kbTarget;
   el.value = (el.value || '').slice(0, -1);
   if (!el.value && kbMode === 'alpha' && !kbShift) {
@@ -3523,7 +3762,7 @@ function money() {
           <stop offset='100%' stop-color='#FFFFFF' stop-opacity='0'/>
         </linearGradient>
       </defs>
-      <path d='${areaD}' fill='url(#lwGrad)'/>
+      <path d='${areaD}' fill='rgba(255,255,255,.05)'/>
       ${hasIdeal ? `<path d='${idealD}' fill='none' stroke='rgba(255,255,255,0.22)' stroke-width='1.5' stroke-dasharray='4 4'/>` : ''}
       <path d='${lineD}' fill='none' stroke='#FFFFFF' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/>
       <line id='an-vline' x1='${lastPt.x}' y1='10' x2='${lastPt.x}' y2='114' stroke='rgba(255,255,255,.22)' stroke-dasharray='3 3' style='display:none'/>
@@ -3885,8 +4124,8 @@ function settingsV() {
           ${dowItems.map(([lbl, dIdx]) => `<button type='button' class='wd-pill ${(S.workDays || []).includes(dIdx) ? 'on' : ''}' onclick='toggleWorkDay(${dIdx})'>${lbl}</button>`).join('')}
         </div>
         <div class='g3' style='margin-top:4px'>
-          <div><label>Inizio</label><input type='time' value='${S.workStart}' onchange='S.workStart=this.value||"09:00";save();R()'></div>
-          <div><label>Fine</label><input type='time' value='${S.workEnd}' onchange='S.workEnd=this.value||"18:00";save();R()'></div>
+          <div><label>Inizio</label><input class='tfield' data-no-kb='1' readonly onclick='openTimePicker(this)' value='${S.workStart}' onchange='S.workStart=this.value||"09:00";save();R()'></div>
+          <div><label>Fine</label><input class='tfield' data-no-kb='1' readonly onclick='openTimePicker(this)' value='${S.workEnd}' onchange='S.workEnd=this.value||"18:00";save();R()'></div>
           <div><label>Tragitto (min)</label><input type='number' min='0' max='240' value='${S.commuteMins}' onchange='S.commuteMins=Math.max(0,+this.value||0);save();R()'></div>
         </div>
         <div class='g2'>
@@ -4471,7 +4710,7 @@ function openDayComposer(ds) {
       <span class='kicker' style='margin-bottom:6px'>NUOVO IMPEGNO IN QUESTO GIORNO</span>
       <input id='dc-title' placeholder='Es. Dentista, Palestra, Cena con Greta'>
       <div class='g2' style='margin-top:6px'>
-        <div><label style='margin-top:0'>Ora</label><input id='dc-tm' type='time' value='19:00'></div>
+        <div><label style='margin-top:0'>Ora</label><input id='dc-tm' class='tfield' data-no-kb='1' readonly onclick='openTimePicker(this)' value='19:00'></div>
         <div><label style='margin-top:0'>Durata (ore)</label><input id='dc-dur' type='number' step='.5' value='1'></div>
       </div>
       <div class='g2' style='margin-top:9px'>
@@ -4520,7 +4759,7 @@ function openEditEventSheet(id) {
     <input id='ee-t' value='${esc(e.t)}'>
     <div class='g3'>
       <div><label>Data</label><input id='ee-d' type='date' value='${e.d}'></div>
-      <div><label>Ora</label><input id='ee-tm' type='time' value='${e.tm}'></div>
+      <div><label>Ora</label><input id='ee-tm' class='tfield' data-no-kb='1' readonly onclick='openTimePicker(this)' value='${e.tm}'></div>
       <div><label>Durata (h)</label><input id='ee-dur' type='number' step='.5' value='${e.dur || 1}'></div>
     </div>
     <button class='btn s' style='width:100%;margin-top:10px' onclick="sendToAppleCalendarShortcut($('#ee-t').value,$('#ee-d').value,$('#ee-tm').value,+$('#ee-dur').value||1)">Invia a Calendario iPhone</button>
@@ -4576,7 +4815,7 @@ function openEventSheet() {
     <label>Titolo</label>
     <input id='et' placeholder='Es. Palestra, Dentista'>
     <div class='g3'>
-      <div><label>Ora</label><input id='etm' type='time' value='19:00'></div>
+      <div><label>Ora</label><input id='etm' class='tfield' data-no-kb='1' readonly onclick='openTimePicker(this)' value='19:00'></div>
       <div><label>Durata (h)</label><input id='ed' type='number' step='.5' value='1'></div>
       <div><label>Ripeti</label><select id='er' onchange="$('#er-cust').style.display=this.value==='cust'?'block':'none';$('#er-end-w').style.display=this.value?'block':'none'"><option value=''>No</option><option value='w'>Settimana</option><option value='d'>Giorno</option><option value='m'>Mese</option><option value='cust'>Ogni N giorni</option></select></div>
     </div>
@@ -4851,6 +5090,131 @@ function saveRecSheet() {
   closeNp();
   toast(recType === 'fin' ? 'Finanziamento aggiunto' : (splitN > 1 ? `Abbonamento ÷${splitN} con ${splitWho} attivo` : 'Abbonamento aggiunto'));
   R();
+}
+
+/* ==========================================================================
+   SELETTORE ORARIO A RUOTE (sostituisce l'orario nativo di iOS)
+   ========================================================================== */
+let tp = null;
+const TP_H = 44;
+
+function tpStyle(k, f) {
+  const col = $('#tp-' + k);
+  if (!col) return;
+  if (f == null) f = col.scrollTop / TP_H;
+  col.querySelectorAll('.tp-it').forEach((el, i) => {
+    const d = Math.abs(f - i);
+    el.style.opacity = Math.max(0.16, 1 - d * 0.4).toFixed(2);
+    el.style.transform = `scale(${Math.max(0.74, 1 - d * 0.08).toFixed(3)})`;
+  });
+}
+
+function tpUpdateBig() {
+  const b = $('#tp-big');
+  if (b && tp) b.textContent = pad(tp.h) + ':' + pad(tp.m);
+}
+
+function tpOnScroll(k) {
+  if (!tp) return;
+  const col = $('#tp-' + k);
+  if (!col) return;
+  const max = k === 'h' ? 23 : 59;
+  const f = col.scrollTop / TP_H;
+  const idx = Math.max(0, Math.min(max, Math.round(f)));
+  tpStyle(k, f);
+  if (tp[k] !== idx) {
+    tp[k] = idx;
+    hapTick();
+    tpUpdateBig();
+  }
+}
+
+function tpGo(k, idx, smooth) {
+  const col = $('#tp-' + k);
+  if (!col) return;
+  col.scrollTo({ top: idx * TP_H, behavior: smooth ? 'smooth' : 'auto' });
+  if (!smooth && tp) tp[k] = idx;
+}
+
+function tpPreset(v) {
+  if (!tp) return;
+  let h, m;
+  if (v === 'now') {
+    const d = new Date();
+    h = d.getHours();
+    m = Math.round(d.getMinutes() / 5) * 5;
+    if (m === 60) { m = 0; h = (h + 1) % 24; }
+  } else {
+    [h, m] = v.split(':').map(Number);
+  }
+  tpGo('h', h, true);
+  tpGo('m', m, true);
+}
+
+function openTimePicker(inp) {
+  if (kbTarget) kbClose();
+  const mt = /^(\d{1,2}):(\d{2})$/.exec(inp.value || '');
+  const h = mt ? Math.min(23, +mt[1]) : 19;
+  const m = mt ? Math.min(59, +mt[2]) : 0;
+  tp = { inp, h, m };
+
+  const items = n => Array.from({ length: n }, (_, i) => `<div class='tp-it' data-i='${i}'>${pad(i)}</div>`).join('');
+  const presets = [['now', 'Adesso'], ['08:00', '08:00'], ['12:30', '12:30'], ['19:00', '19:00'], ['21:00', '21:00']];
+
+  $('#tp').innerHTML = `
+    <div class='tp-box'>
+      <div class='grabber-wrap'><div class='grabber'></div></div>
+      <div class='row sp'>
+        <button type='button' class='x' onclick='tpClose()'>Annulla</button>
+        <b id='tp-big' class='tp-big'>${pad(h)}:${pad(m)}</b>
+        <button type='button' class='btn sm' onclick='tpDone()'>Fine</button>
+      </div>
+      <div class='tp-wheels'>
+        <div class='tp-band'></div>
+        <div class='tp-col' id='tp-h'><div class='tp-pad'></div>${items(24)}<div class='tp-pad'></div></div>
+        <div class='tp-sep'>:</div>
+        <div class='tp-col' id='tp-m'><div class='tp-pad'></div>${items(60)}<div class='tp-pad'></div></div>
+      </div>
+      <div class='chips hscroll' style='justify-content:center'>
+        ${presets.map(([v, l]) => `<button type='button' class='chip' onclick="tpPreset('${v}')">${l}</button>`).join('')}
+      </div>
+    </div>`;
+  $('#tp').classList.add('on');
+
+  ['h', 'm'].forEach(k => {
+    const col = $('#tp-' + k);
+    col.addEventListener('scroll', () => {
+      if (col._raf) return;
+      col._raf = requestAnimationFrame(() => { col._raf = 0; tpOnScroll(k); });
+    }, { passive: true });
+    col.addEventListener('click', ev => {
+      const it = ev.target.closest('.tp-it');
+      if (it) { hapTick(); tpGo(k, +it.dataset.i, true); }
+    });
+  });
+
+  requestAnimationFrame(() => {
+    tpGo('h', h, false);
+    tpGo('m', m, false);
+    tpStyle('h');
+    tpStyle('m');
+  });
+}
+
+function tpClose() {
+  tp = null;
+  $('#tp').classList.remove('on');
+}
+
+function tpDone() {
+  if (!tp) return;
+  const v = pad(tp.h) + ':' + pad(tp.m);
+  const inp = tp.inp;
+  tpClose();
+  if (inp && inp.value !== v) {
+    inp.value = v;
+    try { inp.dispatchEvent(new Event('change', { bubbles: true })); } catch (e) {}
+  }
 }
 
 function payNow() {
@@ -6319,6 +6683,7 @@ setInterval(() => {
 
 function bootAppSync() {
   try {
+    initHaptics();
     if (location.search.includes('_v=') && history.replaceState) {
       const clean = new URL(location.href);
       clean.searchParams.delete('_v');
